@@ -25,7 +25,7 @@ setup_files() {
 
     # Create projects directory and README.md file
     sudo -u $username mkdir -p /home/$username/projects
-    echo "Welcome, $username! some intro message here." | sudo -u $username tee /home/$username/projects/README.md >/dev/null
+    echo "Welcome, $username!" | sudo -u $username tee /home/$username/projects/README.md >/dev/null
 }
 
 # Read usernames from usernames.csv and process each line
