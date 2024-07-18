@@ -32,7 +32,8 @@ create_user() {
             sudo addgroup "$group"
         fi
 
-        sudo adduser --home /home/$username --ingroup $group --disabled-password --gecos "" "$username" &>/dev/null
+        sudo adduser --home /home/$username --ingroup $group --disabled-password --gecos "" "$username" #&>/dev/null
+
         sudo chmod $permissions /home/$username
         sudo chown $username:$group /home/$username
         log_message "User $username created with group $group and permissions $permissions."
@@ -45,7 +46,7 @@ setup_files() {
     local username=$1
 
     sudo -u $username mkdir -p /home/$username/projects
-    echo "Welcome, $username! some intro message here." | sudo -u $username tee /home/$username/projects/README.md >/dev/null
+    echo "Welcome, $username! some intro message here." | sudo -u $username tee /home/$username/projects/README.md &>/dev/null
     log_message "Projects directory and README.md created for user $username."
 }
 
@@ -54,7 +55,7 @@ process_csv() {
     while IFS=',' read -r username group permissions; do
         create_user "$username" "$group" "$permissions"
         setup_files "$username"
-    done < ./usernames.csv
+    done < usernames.csv
 
     log_message "Processed usernames.csv file."
 }
