@@ -1,5 +1,6 @@
 #!/bin/bash
 
+USERNAMES="usernames.csv"
 LOG_FILE="manage_users.log"
 LAST_ACTIVE_FILE="last_active.log"
 INACTIVE_THRESHOLD_DAYS=90 
@@ -32,7 +33,7 @@ create_user() {
             sudo addgroup "$group"
         fi
 
-        sudo adduser --home /home/$username --ingroup $group --disabled-password --gecos "" "$username" #&>/dev/null
+        sudo adduser --home /home/$username --ingroup $group --disabled-password --gecos "" "$username" &>/dev/null
 
         sudo chmod $permissions /home/$username
         sudo chown $username:$group /home/$username
@@ -55,7 +56,7 @@ process_csv() {
     while IFS=',' read -r username group permissions; do
         create_user "$username" "$group" "$permissions"
         setup_files "$username"
-    done < usernames.csv
+    done < $USERNAMES
 
     log_message "Processed usernames.csv file."
 }
